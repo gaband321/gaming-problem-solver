@@ -2,15 +2,13 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
+// Returns null when Supabase env vars aren't configured (prevents 500s on pages that guard themselves)
 export async function createClient() {
-  const cookieStore = await cookies();
-
-  // Throw a clear error during development if env vars are missing
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    throw new Error(
-      'Missing Supabase environment variables. Copy .env.local.example to .env.local and add your project keys.'
-    );
+    return null;
   }
+
+  const cookieStore = await cookies();
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,

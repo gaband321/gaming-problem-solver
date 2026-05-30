@@ -51,7 +51,7 @@ export default function ContactPage() {
             <Mail className="h-5 w-5 text-purple-400" />
             <div>
               <p className="text-xs text-slate-600">Email</p>
-              <p className="text-sm text-white">hello@gamingproblem.solver</p>
+              <p className="text-sm text-white">contact@gamingproblemsolverr.com</p>
             </div>
           </div>
           <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4">
@@ -97,7 +97,7 @@ export default function ContactPage() {
               type="text"
               value={form.subject}
               onChange={e => setForm({ ...form, subject: e.target.value })}
-              placeholder="What&apos;s it about?"
+              placeholder="What is it about?"
               className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-600 outline-none transition-all focus:border-purple-500/50 focus:bg-white/8"
             />
           </div>

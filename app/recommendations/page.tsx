@@ -7,9 +7,14 @@ import { BookmarkX, Plus } from 'lucide-react';
 
 export default async function RecommendationsPage() {
   const supabase = await createClient();
+
+  // Redirect to auth if Supabase is not configured or user is not logged in
+  if (!supabase) {
+    redirect('/auth?redirect=/recommendations');
+  }
+
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Protect this page — redirect to auth if not logged in
   if (!user) {
     redirect('/auth?redirect=/recommendations');
   }

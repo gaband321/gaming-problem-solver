@@ -40,21 +40,21 @@ const rankConfig = {
     label: 'Runner Up',
     icon: Award,
     border: 'border-slate-700/60',
-    hoverBorder: 'hover:border-slate-500/60',
+    hoverBorder: 'hover:border-slate-500/50',
     shadow: 'hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)]',
     shimmer: '',
     badgeBg: 'bg-slate-700',
-    btnClass: 'bg-white/8 hover:bg-white/12 text-white border border-white/10 hover:border-white/20',
+    btnClass: 'bg-white/[0.08] hover:bg-white/[0.14] text-white border border-white/25 hover:border-white/40 font-semibold',
   },
   3: {
     label: 'Also Great',
     icon: Award,
     border: 'border-slate-800/60',
-    hoverBorder: 'hover:border-slate-600/60',
+    hoverBorder: 'hover:border-slate-600/50',
     shadow: 'hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)]',
     shimmer: '',
     badgeBg: 'bg-slate-800',
-    btnClass: 'bg-white/8 hover:bg-white/12 text-white border border-white/10 hover:border-white/20',
+    btnClass: 'bg-white/[0.08] hover:bg-white/[0.14] text-white border border-white/25 hover:border-white/40 font-semibold',
   },
 };
 
@@ -120,36 +120,30 @@ export default function ProductCard({ product, rank = 3, bestForLabel }: Product
 
       {/* Image / visual area */}
       <div
-        className="relative h-48 w-full flex-shrink-0 overflow-hidden"
+        className="relative h-44 w-full flex-shrink-0 overflow-hidden"
         style={{ background: `linear-gradient(135deg, ${product.gradientFrom} 0%, ${product.gradientTo} 100%)` }}
       >
-        {/* Subtle noise overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        {/* Gradient overlay — stronger at bottom so text is legible */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
 
-        {/* Glow orb behind icon */}
+        {/* Glow orb — top pick only */}
         {rank === 1 && (
-          <div className="absolute left-1/2 top-1/2 h-28 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500/15 blur-2xl" />
+          <div className="absolute left-1/2 top-1/3 h-24 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500/20 blur-2xl" />
         )}
 
-        {/* Category icon */}
-        <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2">
-          <div
-            className={`flex h-16 w-16 items-center justify-center rounded-2xl border backdrop-blur-sm text-3xl ${
-              rank === 1
-                ? 'border-purple-500/30 bg-purple-500/15 shadow-lg shadow-purple-500/20'
-                : 'border-white/15 bg-white/8'
-            }`}
-          >
-            {icon}
-          </div>
-          <span className="text-[10px] uppercase tracking-[0.15em] text-white/30">Product Image</span>
+        {/* Large centred category emoji */}
+        <div className="absolute inset-0 flex items-center justify-center pb-8">
+          <span className="text-5xl drop-shadow-lg select-none">{icon}</span>
         </div>
 
-        {/* Category label bottom-left */}
-        <div className="absolute bottom-3 left-3">
-          <span className="rounded-md bg-black/50 px-2 py-0.5 text-[10px] uppercase tracking-wider text-white/40 backdrop-blur-sm">
-            {product.category.replace(/-/g, ' ')}
-          </span>
+        {/* Product name + placeholder notice at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 px-4 pb-3">
+          <p className="truncate text-[13px] font-semibold leading-tight text-white/90">
+            {product.name}
+          </p>
+          <p className="mt-0.5 text-[10px] text-white/35">
+            Illustration · verify image before purchase
+          </p>
         </div>
       </div>
 

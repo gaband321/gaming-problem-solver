@@ -9,9 +9,19 @@ import ComparisonTable from '@/components/ComparisonTable';
 import { matchProducts, getCategoryFromProblem } from '@/lib/products';
 import { createClient } from '@/lib/supabase/client';
 import type { Product } from '@/types';
-import { BookmarkPlus, CheckCircle, Loader2, RefreshCw, Info } from 'lucide-react';
+import { BookmarkPlus, CheckCircle, Loader2, RefreshCw, Info, ArrowRight } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
 import Link from 'next/link';
+
+// Shown before the user submits anything — makes the page feel alive
+const featuredProblems = [
+  { icon: '🪑', category: 'Ergonomics',  text: 'My back hurts after gaming for 3 hours' },
+  { icon: '🎧', category: 'Budget Audio', text: 'I need a good gaming headset under $50' },
+  { icon: '🎙️', category: 'Audio',        text: 'My microphone sounds bad on Discord' },
+  { icon: '🎯', category: 'FPS',          text: 'I need a precise gaming mouse for FPS' },
+  { icon: '💧', category: 'Comfort',      text: 'My hands get sweaty when gaming' },
+  { icon: '🖥️', category: 'Display',      text: 'My monitor has screen tearing and blur' },
+];
 
 // Compute "Best for" labels based on price tier
 function getBestForLabels(products: Product[]): string[] {
@@ -139,10 +149,10 @@ function SolvePageInner() {
 
         {/* Page header */}
         <div className="mb-10 text-center">
-          <h1 className="mb-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             Describe your gaming problem
           </h1>
-          <p className="text-slate-500">
+          <p className="text-slate-400">
             Be specific — the more detail you give, the better the match.
           </p>
         </div>
@@ -206,7 +216,7 @@ function SolvePageInner() {
 
             {/* Product cards */}
             <div>
-              <p className="mb-5 text-[11px] font-semibold uppercase tracking-widest text-slate-600">
+              <p className="mb-5 text-[11px] font-semibold uppercase tracking-widest text-slate-400">
                 Top 3 Recommendations
               </p>
               <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
@@ -239,13 +249,33 @@ function SolvePageInner() {
           </div>
         )}
 
-        {/* Pre-search empty state */}
+        {/* Pre-search state — show featured problems so the page is never empty */}
         {!isLoading && !hasSearched && (
-          <div className="mt-16 text-center">
-            <p className="text-sm text-slate-700">
-              Your recommendations will appear here.{' '}
-              <Link href="/examples" className="text-slate-500 underline hover:text-slate-300 transition-colors">
-                Need ideas? See 30 example problems.
+          <div className="mt-12">
+            <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-slate-500">
+              Not sure what to type? Click a problem below
+            </p>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {featuredProblems.map(({ icon, category, text }) => (
+                <button
+                  key={text}
+                  onClick={() => handleSubmit(text)}
+                  className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4 text-left transition-all hover:border-purple-500/40 hover:bg-white/[0.06]"
+                >
+                  <span className="shrink-0 text-2xl">{icon}</span>
+                  <div className="min-w-0 flex-1">
+                    <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-slate-600">{category}</p>
+                    <p className="truncate text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
+                      &ldquo;{text}&rdquo;
+                    </p>
+                  </div>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-slate-700 transition-all group-hover:translate-x-0.5 group-hover:text-purple-400" />
+                </button>
+              ))}
+            </div>
+            <p className="mt-5 text-center text-xs text-slate-600">
+              <Link href="/examples" className="underline transition-colors hover:text-slate-400">
+                Browse all 30 example problems
               </Link>
             </p>
           </div>

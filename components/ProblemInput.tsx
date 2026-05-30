@@ -1,17 +1,17 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Search, Loader2, ArrowRight } from 'lucide-react';
+import { Loader2, ArrowRight, Sparkles } from 'lucide-react';
 
 const quickExamples = [
-  'My back hurts when gaming',
-  'I need a headset under $50',
-  'My hands get sweaty',
-  'My microphone sounds bad',
-  'I need a mouse for FPS',
-  'My wrist hurts from gaming',
-  'My monitor has screen tearing',
-  'I want to start streaming',
+  { label: 'Back pain',        text: 'My back hurts after gaming for 3 hours' },
+  { label: 'Headset $50',      text: 'I need a good gaming headset under $50' },
+  { label: 'Sweaty hands',     text: 'My hands get sweaty when gaming' },
+  { label: 'Bad mic',          text: 'My microphone sounds bad on Discord' },
+  { label: 'FPS mouse',        text: 'I need a precise gaming mouse for FPS games' },
+  { label: 'Wrist pain',       text: 'My wrist hurts after long gaming sessions' },
+  { label: 'Screen tearing',   text: 'My monitor has screen tearing and blur' },
+  { label: 'Start streaming',  text: 'I want to start streaming on Twitch' },
 ];
 
 interface ProblemInputProps {
@@ -33,19 +33,22 @@ export default function ProblemInput({ initialValue = '', onSubmit, isLoading = 
     if (value.trim()) onSubmit(value.trim());
   };
 
+  const handleChip = (text: string) => {
+    setValue(text);
+    textareaRef.current?.focus();
+  };
+
+  const canSubmit = value.trim().length > 0 && !isLoading;
+
   return (
     <div className="w-full max-w-2xl mx-auto">
       <form onSubmit={handleSubmit}>
-        {/* Input box */}
-        <div
-          className="relative rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm transition-all duration-300 focus-within:border-purple-500/50 focus-within:bg-white/[0.06]"
-          style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04)' }}
-        >
-          {/* Focus glow */}
-          <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 focus-within:opacity-100" style={{ boxShadow: '0 0 0 1px rgba(139,92,246,0.3), 0 8px 32px rgba(139,92,246,0.1)' }} />
+        {/* Input card */}
+        <div className="rounded-2xl border border-white/20 bg-[#0f0f1c] shadow-xl shadow-black/40 transition-all duration-200 focus-within:border-purple-500/60 focus-within:shadow-purple-500/10">
 
-          <div className="flex items-start gap-3 p-4 pb-2">
-            <Search className="mt-1 h-5 w-5 shrink-0 text-slate-600" />
+          {/* Textarea row */}
+          <div className="flex items-start gap-3 px-5 pt-5 pb-3">
+            <Sparkles className="mt-1 h-5 w-5 shrink-0 text-purple-500" />
             <textarea
               ref={textareaRef}
               value={value}
@@ -53,45 +56,58 @@ export default function ProblemInput({ initialValue = '', onSubmit, isLoading = 
               onKeyDown={e => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
-                  if (value.trim()) onSubmit(value.trim());
+                  if (canSubmit) onSubmit(value.trim());
                 }
               }}
-              placeholder="Describe your gaming problem... e.g. My back hurts after long sessions"
+              placeholder="e.g. My back hurts after gaming for 3 hours"
               rows={3}
               disabled={isLoading}
-              className="flex-1 resize-none bg-transparent text-base leading-relaxed text-white placeholder-slate-600 outline-none"
+              className="flex-1 resize-none bg-transparent text-base leading-relaxed text-white placeholder-slate-500 outline-none disabled:opacity-60"
             />
           </div>
 
-          <div className="flex items-center justify-between px-4 pb-4 pt-1">
-            <span className="text-xs text-slate-700">Press Enter or click Solve</span>
+          {/* Footer row */}
+          <div className="flex items-center justify-between px-5 pb-4">
+            <span className="text-xs text-slate-500">Press Enter or click the button</span>
             <button
               type="submit"
-              disabled={!value.trim() || isLoading}
-              className="group flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-all disabled:cursor-not-allowed disabled:opacity-40"
-              style={{ background: 'linear-gradient(135deg, #7c3aed, #6d28d9)', boxShadow: '0 4px 20px rgba(124,58,237,0.3)' }}
+              disabled={!canSubmit}
+              className="group relative flex items-center gap-2 overflow-hidden rounded-xl px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-purple-500/30 transition-all hover:shadow-purple-500/50 disabled:cursor-not-allowed disabled:opacity-50"
+              style={{ background: canSubmit ? 'linear-gradient(135deg, #7c3aed, #6d28d9)' : '#374151' }}
             >
               {isLoading ? (
-                <><Loader2 className="h-4 w-4 animate-spin" />Analyzing…</>
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Analyzing…
+                </>
               ) : (
-                <>Solve My Problem<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></>
+                <>
+                  Solve My Problem
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  {/* Shimmer on hover */}
+                  <div className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-500 group-hover:translate-x-[100%]" />
+                </>
               )}
             </button>
           </div>
         </div>
       </form>
 
-      {/* Quick-select chips */}
-      <div className="mt-4">
-        <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-widest text-slate-700">Quick examples</p>
+      {/* Quick-pick chips */}
+      <div className="mt-5">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">
+          Quick examples — click to try
+        </p>
         <div className="flex flex-wrap gap-2">
           {quickExamples.map(ex => (
             <button
-              key={ex}
-              onClick={() => { setValue(ex); textareaRef.current?.focus(); }}
-              className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs text-slate-500 transition-all hover:border-purple-500/30 hover:bg-purple-500/[0.08] hover:text-purple-300"
+              key={ex.label}
+              type="button"
+              onClick={() => handleChip(ex.text)}
+              disabled={isLoading}
+              className="rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-1.5 text-xs font-medium text-slate-300 transition-all hover:border-purple-500/50 hover:bg-purple-500/10 hover:text-purple-200 disabled:pointer-events-none"
             >
-              {ex}
+              {ex.label}
             </button>
           ))}
         </div>

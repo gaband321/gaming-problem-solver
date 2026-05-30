@@ -216,9 +216,14 @@ function SolvePageInner() {
 
             {/* Product cards */}
             <div>
-              <p className="mb-5 text-[11px] font-semibold uppercase tracking-widest text-slate-400">
-                Top 3 Recommendations
-              </p>
+              <div className="mb-5 flex items-center justify-between">
+                <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400">
+                  Top 3 Recommendations
+                </p>
+                <p className="text-[10px] text-slate-600">
+                  Last updated: May 30, 2025
+                </p>
+              </div>
               <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
                 {results.map((product, i) => (
                   <ProductCard
@@ -234,15 +239,24 @@ function SolvePageInner() {
             {/* Comparison table */}
             <ComparisonTable products={results} bestForLabels={bestForLabels} />
 
+            {/* Buyer disclaimer */}
+            <div className="rounded-xl border border-amber-500/15 bg-amber-500/5 px-4 py-3">
+              <p className="text-xs leading-relaxed text-amber-200/70">
+                <span className="font-semibold text-amber-200/90">Disclaimer:</span> Recommendations are for general gaming setup help.
+                Always check reviews, current prices, and full product details before buying.
+              </p>
+            </div>
+
             {/* Trust + disclosure note */}
             <div className="flex items-start gap-2.5 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
               <Info className="mt-0.5 h-4 w-4 shrink-0 text-slate-600" />
-              <p className="text-xs leading-relaxed text-slate-600">
-                Recommendations are based on problem fit, verified user reviews, features, and value — not on commission rates. Some links may become affiliate links in the future.{' '}
-                <Link href="/affiliate-disclosure" className="text-slate-500 underline hover:text-slate-300 transition-colors">
+              <p className="text-xs leading-relaxed text-slate-500">
+                Recommendations are based on problem fit, verified user reviews, features, and value — not on commission rates.
+                Some links may become affiliate links in the future.{' '}
+                <Link href="/affiliate-disclosure" className="underline hover:text-slate-300 transition-colors">
                   Read our affiliate disclosure.
                 </Link>{' '}
-                Prices shown are approximate retail and may vary.
+                Prices are approximate retail and may vary.
               </p>
             </div>
 

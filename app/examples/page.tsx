@@ -34,13 +34,14 @@ export default function ExamplesPage() {
 
         {/* Header */}
         <div className="mb-14 text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-purple-400">20 real problems</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-purple-400">30 example problems</p>
           <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
             Don&apos;t know what to type?
           </h1>
           <p className="mx-auto max-w-xl text-lg text-slate-500">
             Click any problem below to instantly get tailored product recommendations. These are the most common gaming setup issues we solve.
           </p>
+          <p className="mt-3 text-xs text-slate-600">Last updated: May 30, 2025</p>
         </div>
 
         {/* Category filter tabs */}

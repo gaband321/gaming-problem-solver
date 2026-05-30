@@ -98,7 +98,7 @@ export default function HomePage() {
               style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)' }}
             >
               <span className="relative z-10 flex items-center gap-2">
-                Solve My Problem
+                Try the Solver
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </span>
               <div className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover:translate-x-[100%]" />
@@ -107,7 +107,7 @@ export default function HomePage() {
               href="/examples"
               className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-8 py-3.5 font-medium text-slate-300 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/[0.07] hover:text-white"
             >
-              Browse 30 examples
+              Browse 30 example problems
               <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
@@ -279,7 +279,7 @@ export default function HomePage() {
                 href="/solve"
                 className="inline-flex items-center gap-2 rounded-xl bg-purple-600 px-8 py-3.5 font-semibold text-white shadow-lg shadow-purple-500/30 transition-all hover:bg-purple-500 hover:shadow-purple-500/50"
               >
-                Solve My Problem
+                Try the Solver
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <p className="mt-5 text-xs text-slate-700">

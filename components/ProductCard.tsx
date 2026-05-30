@@ -1,5 +1,13 @@
 import { Product } from '@/types';
-import { Star, Check, X, ExternalLink, Zap, Trophy, Award } from 'lucide-react';
+import { Star, Check, X, ExternalLink, Zap, Trophy, Award, Info } from 'lucide-react';
+
+// Why this pick is better suited than the alternatives — shown at the bottom of each card
+const whyBetterText: Record<string, string> = {
+  'Best Overall':  'The top-rated option in this category. Best balance of features, quality, and value for most gamers.',
+  'Best Budget':   'The most affordable of the three picks. Delivers solid real-world performance without overspending.',
+  'Best Premium':  'The highest-performing option. Worth the extra cost for serious or long-session gamers.',
+  'Best Value':    'The sweet-spot pick — meaningfully better than the budget option at a reasonable price step-up.',
+};
 
 interface ProductCardProps {
   product: Product;
@@ -150,22 +158,32 @@ export default function ProductCard({ product, rank = 3, bestForLabel }: Product
       {/* Card body */}
       <div className="flex flex-1 flex-col gap-4 p-5">
 
-        {/* Name + stars */}
+        {/* "Example recommendation" label */}
+        <div className="flex items-center gap-1.5">
+          <Info className="h-3 w-3 text-slate-600" />
+          <span className="text-[10px] font-medium text-slate-600 uppercase tracking-wider">
+            Example recommendation
+          </span>
+        </div>
+
+        {/* Name + stars + review count */}
         <div>
-          <h3 className="mb-2 text-base font-bold leading-snug text-white transition-colors group-hover:text-purple-300 lg:text-[17px]">
+          <h3 className="mb-2 text-base font-bold leading-snug text-white lg:text-[17px]">
             {product.name}
           </h3>
           <div className="flex flex-wrap items-center gap-2">
             <div className="flex items-center gap-0.5">{renderStars(product.rating)}</div>
             <span className="text-sm font-semibold text-amber-400">{product.rating.toFixed(1)}</span>
-            <span className="text-xs text-slate-600">({product.reviewCount.toLocaleString()})</span>
+            <span className="text-xs text-slate-500">
+              Based on {product.reviewCount.toLocaleString()}+ verified reviews
+            </span>
           </div>
         </div>
 
         {/* Price */}
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-extrabold tracking-tight text-white">{product.price}</span>
-          <span className="text-xs text-slate-600">approx. retail</span>
+          <span className="text-xs text-slate-500">approx. retail price</span>
         </div>
 
         {/* Why it solves the problem */}
@@ -204,6 +222,16 @@ export default function ProductCard({ product, rank = 3, bestForLabel }: Product
             </ul>
           </div>
         </div>
+
+        {/* Why better than the other two picks */}
+        {bestForLabel && whyBetterText[bestForLabel] && (
+          <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2.5">
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-600 mb-1">
+              Why choose this one
+            </p>
+            <p className="text-xs leading-relaxed text-slate-400">{whyBetterText[bestForLabel]}</p>
+          </div>
+        )}
 
         {/* CTA button */}
         <a

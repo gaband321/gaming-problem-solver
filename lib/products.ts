@@ -1171,7 +1171,29 @@ export function matchProducts(problemText: string): Product[] {
   return products.filter(p => p.category === bestCategory).slice(0, 3);
 }
 
-// --- 20 curated example problems shown on the Examples page ----------------
+// Returns just the matched category string — used to drive the analysis panel
+export function getCategoryFromProblem(problemText: string): string {
+  const lower = problemText.toLowerCase();
+  const scores: Record<string, number> = {};
+
+  for (const [category, keywords] of Object.entries(categoryKeywords)) {
+    scores[category] = keywords.reduce((acc, kw) => acc + (lower.includes(kw) ? 1 : 0), 0);
+  }
+
+  const hasBudgetMouseSignal = ['budget mouse', 'cheap mouse', 'mouse under', '$40', '$30'].some(kw => lower.includes(kw));
+  if (hasBudgetMouseSignal) scores['fps-mouse'] = Math.max(0, scores['fps-mouse'] - 3);
+
+  const hasBudgetAudioSignal =
+    ['budget', 'cheap', 'affordable', 'under $50', '$50'].some(kw => lower.includes(kw)) &&
+    ['headset', 'headphones', 'audio'].some(kw => lower.includes(kw));
+  if (!hasBudgetAudioSignal) scores['budget-headset'] = Math.max(0, scores['budget-headset'] - 2);
+
+  return Object.entries(scores)
+    .sort(([, a], [, b]) => b - a)
+    .find(([, score]) => score > 0)?.[0] ?? '';
+}
+
+// --- 30 curated example problems shown on the Examples page ----------------
 export const exampleProblems: Array<{
   problem: string;
   category: string;
@@ -1197,6 +1219,17 @@ export const exampleProblems: Array<{
   { problem: 'My team cannot hear me clearly in game chat',          category: 'Audio',         icon: '🔊' },
   { problem: 'My aim feels inconsistent and I keep missing shots',   category: 'FPS',           icon: '🎯' },
   { problem: 'I need a webcam to stream my face on Twitch',          category: 'Streaming',     icon: '📷' },
+  // Problems 21-30
+  { problem: 'My keyboard is too loud for late night gaming',        category: 'Input',         icon: '⌨️' },
+  { problem: 'My eyes hurt after long gaming sessions',              category: 'Lighting',      icon: '👁️' },
+  { problem: 'My room is too dark for my streaming camera',          category: 'Lighting',      icon: '🌑' },
+  { problem: 'I need a cheap streaming setup under $200',            category: 'Streaming',     icon: '💸' },
+  { problem: 'My controller thumbsticks are drifting',               category: 'Controller',    icon: '🕹️' },
+  { problem: 'My mouse is too heavy for fast FPS movement',          category: 'FPS',           icon: '🏋️' },
+  { problem: 'I need a wireless gaming headset for comfort',         category: 'Comfort',       icon: '🎧' },
+  { problem: 'I need more desk space for my dual monitor setup',     category: 'Desk',          icon: '🗃️' },
+  { problem: 'My gaming setup looks bad for content creation',       category: 'Lighting',      icon: '📸' },
+  { problem: 'I need a budget gaming chair that is comfortable',     category: 'Ergonomics',    icon: '💺' },
 ];
 
 // Category display metadata for the Examples page filter tabs

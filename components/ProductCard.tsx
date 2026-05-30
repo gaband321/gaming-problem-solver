@@ -3,7 +3,8 @@ import { Star, Check, X, ExternalLink, Zap, Trophy, Award } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
-  rank?: number; // 1 = top pick, 2 = runner up, 3 = third
+  rank?: number;       // 1 = top pick, 2 = runner up, 3 = third
+  bestForLabel?: string; // e.g. "Best Budget", "Best Overall", "Best Premium"
 }
 
 const categoryIcons: Record<string, string> = {
@@ -57,7 +58,14 @@ const rankConfig = {
   },
 };
 
-export default function ProductCard({ product, rank = 3 }: ProductCardProps) {
+const bestForColors: Record<string, string> = {
+  'Best Overall': 'bg-purple-500/15 text-purple-300 border-purple-500/30',
+  'Best Budget':  'bg-emerald-500/12 text-emerald-300 border-emerald-500/25',
+  'Best Premium': 'bg-amber-500/12 text-amber-300 border-amber-500/25',
+  'Best Value':   'bg-cyan-500/12 text-cyan-300 border-cyan-500/25',
+};
+
+export default function ProductCard({ product, rank = 3, bestForLabel }: ProductCardProps) {
   const cfg = rankConfig[rank as 1 | 2 | 3] ?? rankConfig[3];
   const RankIcon = cfg.icon;
   const icon = categoryIcons[product.category] ?? '🎮';
@@ -95,14 +103,20 @@ export default function ProductCard({ product, rank = 3 }: ProductCardProps) {
         </div>
       </div>
 
-      {/* Product badge (e.g. "Editor's Pick") */}
-      {product.badge && (
+      {/* Best-for label (from solve page) — takes priority over product badge */}
+      {bestForLabel ? (
+        <div className="absolute right-3 top-3 z-20">
+          <span className={`rounded-full border px-2.5 py-1 text-xs font-semibold backdrop-blur-sm ${bestForColors[bestForLabel] ?? 'bg-white/10 text-slate-300 border-white/10'}`}>
+            {bestForLabel}
+          </span>
+        </div>
+      ) : product.badge ? (
         <div className="absolute right-3 top-3 z-20">
           <span className="rounded-full border border-white/10 bg-black/40 px-2.5 py-1 text-xs font-medium text-slate-300 backdrop-blur-sm">
             {product.badge}
           </span>
         </div>
-      )}
+      ) : null}
 
       {/* Image / visual area */}
       <div

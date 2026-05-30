@@ -1,43 +1,59 @@
 import Link from 'next/link';
-import { Gamepad2 } from 'lucide-react';
+import { Gamepad2, ShieldCheck } from 'lucide-react';
+
+const navLinks = [
+  { href: '/solve',    label: 'Solve My Problem' },
+  { href: '/examples', label: 'Example Problems' },
+  { href: '/recommendations', label: 'Saved Gear' },
+  { href: '/about',   label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const legalLinks = [
+  { href: '/privacy',              label: 'Privacy Policy' },
+  { href: '/affiliate-disclosure', label: 'Affiliate Disclosure' },
+  { href: '/auth',                 label: 'Sign In / Sign Up' },
+];
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black/40 mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="mt-20 border-t border-white/[0.06] bg-black/30">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
 
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-purple-400 flex items-center justify-center">
-                <Gamepad2 className="w-4 h-4 text-white" />
+            <Link href="/" className="mb-4 flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-600 to-purple-400 shadow-lg shadow-purple-500/20">
+                <Gamepad2 className="h-4 w-4 text-white" />
               </div>
               <span className="font-bold text-white">
                 Gaming <span className="text-purple-400">Problem Solver</span>
               </span>
             </Link>
-            <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
+            <p className="max-w-xs text-sm leading-relaxed text-slate-500">
               Smart product recommendations for gamers — describe your problem, get the gear that actually fixes it.
             </p>
-            <p className="text-slate-600 text-xs mt-4">
-              Some links on this site may be affiliate links in the future.
-            </p>
+
+            {/* Disclosure summary */}
+            <div className="mt-5 flex items-start gap-2 rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
+              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+              <p className="text-xs leading-relaxed text-slate-600">
+                Recommendations are based on problem fit, features, verified reviews, and value — not commission potential.{' '}
+                <Link href="/affiliate-disclosure" className="text-slate-500 underline hover:text-slate-300 transition-colors">
+                  Some links may be affiliate links.
+                </Link>
+              </p>
+            </div>
           </div>
 
           {/* Pages */}
           <div>
-            <h3 className="text-white font-semibold text-sm mb-4">Pages</h3>
-            <ul className="space-y-2">
-              {[
-                { href: '/solve', label: 'Solve My Problem' },
-                { href: '/examples', label: 'Example Problems' },
-                { href: '/recommendations', label: 'Saved Gear' },
-                { href: '/about', label: 'About' },
-                { href: '/contact', label: 'Contact' },
-              ].map(link => (
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-slate-500">Pages</h3>
+            <ul className="space-y-2.5">
+              {navLinks.map(link => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-slate-500 hover:text-white text-sm transition-colors">
+                  <Link href={link.href} className="text-sm text-slate-500 transition-colors hover:text-white">
                     {link.label}
                   </Link>
                 </li>
@@ -47,14 +63,11 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="text-white font-semibold text-sm mb-4">Legal</h3>
-            <ul className="space-y-2">
-              {[
-                { href: '/privacy', label: 'Privacy Policy' },
-                { href: '/auth', label: 'Sign In / Sign Up' },
-              ].map(link => (
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-slate-500">Legal</h3>
+            <ul className="space-y-2.5">
+              {legalLinks.map(link => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-slate-500 hover:text-white text-sm transition-colors">
+                  <Link href={link.href} className="text-sm text-slate-500 transition-colors hover:text-white">
                     {link.label}
                   </Link>
                 </li>
@@ -63,13 +76,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-slate-600 text-sm">
+        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/[0.05] pt-6 sm:flex-row">
+          <p className="text-xs text-slate-700">
             &copy; {new Date().getFullYear()} Gaming Problem Solver. All rights reserved.
           </p>
-          <p className="text-slate-700 text-xs">
-            Built for gamers, by gamers.
-          </p>
+          <p className="text-xs text-slate-700">Built for gamers, by gamers.</p>
         </div>
       </div>
     </footer>

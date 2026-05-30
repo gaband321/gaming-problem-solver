@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ── Custom gaming theme (Tailwind v4 @theme) ─────────────────────── */
+@theme {
+  --color-gaming-bg:            #07070e;
+  --color-gaming-card:          #0d0d1a;
+  --color-gaming-border:        #1a1a30;
+  --color-gaming-purple:        #8b5cf6;
+  --color-gaming-purple-dark:   #7c3aed;
+  --color-gaming-purple-light:  #a78bfa;
+  --color-gaming-cyan:          #22d3ee;
+  --color-gaming-green:         #34d399;
+  --color-gaming-text:          #f1f5f9;
+  --color-gaming-muted:         #94a3b8;
+  --font-sans:                  var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ── Base ──────────────────────────────────────────────────────────── */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #07070e;
+  color: #f1f5f9;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Subtle radial glow from top — gives depth without being distracting */
+  background-image:
+    radial-gradient(ellipse 100% 60% at 50% -10%, rgba(124, 58, 237, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 10%, rgba(34, 211, 238, 0.04) 0%, transparent 60%);
 }
+
+/* ── Scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a2040; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
+
+/* ── Background grid pattern ───────────────────────────────────────── */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* ── Premium card shimmer line (top border gradient) ───────────────── */
+.card-shimmer {
+  position: relative;
+}
+.card-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139,92,246,0.6), transparent);
+  border-radius: 99px;
+  pointer-events: none;
+}
+
+.card-shimmer-gold::before {
+  background: linear-gradient(90deg, transparent, rgba(251,191,36,0.5), transparent);
+}
+
+/* ── Glow effects ──────────────────────────────────────────────────── */
+.glow-purple {
+  box-shadow:
+    0 0 0 1px rgba(139,92,246,0.2),
+    0 4px 24px rgba(139,92,246,0.15),
+    0 1px 0 rgba(255,255,255,0.05) inset;
+}
+.glow-purple-strong {
+  box-shadow:
+    0 0 0 1px rgba(139,92,246,0.4),
+    0 8px 40px rgba(139,92,246,0.25),
+    0 1px 0 rgba(255,255,255,0.06) inset;
+}
+
+/* ── Animations ────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+@keyframes orb-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(30px, -20px) scale(1.05); }
+  66%       { transform: translate(-20px, 10px) scale(0.97); }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.55s ease-out both; }
+.animate-fade-in    { animation: fadeIn   0.4s  ease-out both; }
+.animate-float      { animation: floatSlow 6s ease-in-out infinite; }
+.animate-orb        { animation: orb-drift 12s ease-in-out infinite; }
+
+.stagger-1 { animation-delay: 0.08s; }
+.stagger-2 { animation-delay: 0.16s; }
+.stagger-3 { animation-delay: 0.24s; }
+.stagger-4 { animation-delay: 0.32s; }
+.stagger-5 { animation-delay: 0.42s; }
+.stagger-6 { animation-delay: 0.52s; }

@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gaming Problem Solver
 
-## Getting Started
+A professional Next.js 16 web app that lets gamers describe their setup problems and get smart product recommendations.
 
-First, run the development server:
+## Quick Start
 
 ```bash
+# 1. Install dependencies
+npm install
+
+# 2. Set up environment variables
+cp .env.local.example .env.local
+# Edit .env.local with your Supabase project keys
+
+# 3. Set up the database
+# Run supabase/schema.sql in your Supabase SQL editor
+
+# 4. Start the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js 16** (App Router, Turbopack)
+- **Tailwind CSS v4**
+- **Supabase** (auth + PostgreSQL database)
+- **lucide-react** (icons)
+- **TypeScript**
 
-## Learn More
+## Pages
 
-To learn more about Next.js, take a look at the following resources:
+| Route | Description |
+|---|---|
+| `/` | Home page with hero and feature overview |
+| `/solve` | Main problem solver with product recommendations |
+| `/examples` | 12 example gaming problems to try |
+| `/recommendations` | Saved searches (requires login) |
+| `/about` | About the project |
+| `/contact` | Contact form |
+| `/privacy` | Privacy policy |
+| `/auth` | Login / sign up |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+gaming-problem-solver/
+├── app/                    # Next.js App Router pages
+│   ├── auth/               # Login & signup + callback route
+│   ├── solve/              # Problem solver (main feature)
+│   ├── examples/           # Example problems
+│   ├── recommendations/    # Saved searches (auth-gated)
+│   ├── about/
+│   ├── contact/
+│   └── privacy/
+├── components/
+│   ├── Navbar.tsx
+│   ├── Footer.tsx
+│   ├── ProductCard.tsx
+│   └── ProblemInput.tsx
+├── lib/
+│   ├── products.ts         # Product data + keyword matching engine
+│   └── supabase/           # Supabase clients (browser + server)
+├── supabase/
+│   └── schema.sql          # Run this in Supabase SQL editor
+├── proxy.ts                # Session proxy (Next.js 16)
+└── .env.local.example
+```
 
-## Deploy on Vercel
+## Supabase Setup
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Create a project at [supabase.com](https://supabase.com)
+2. Copy your project URL and anon key from **Settings → API**
+3. Add them to `.env.local`
+4. Run `supabase/schema.sql` in the Supabase SQL editor
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Stripe (Future)
+
+The schema.sql has a commented-out `subscriptions` table ready for Stripe billing. Add Stripe keys to `.env.local` and create `/app/api/stripe/` route handlers when you're ready.
+
+## Deploy to Vercel
+
+```bash
+npm run build   # verify clean build
+```
+
+Then connect your GitHub repo to Vercel and add your `.env.local` variables in **Project Settings → Environment Variables**.
